@@ -375,6 +375,10 @@
     <!-- Main Container -->
     <div class="container">
         <h1 class="heading">Click for Surprise 🎁</h1>
+        <div style="margin-bottom:16px; display:flex; justify-content:center; align-items:center; gap:8px;">
+            <label for="nameInput" style="color:#f4f1de; font-weight:600;">Name:</label>
+            <input id="nameInput" type="text" placeholder="Enter your name" style="padding:10px 12px; border-radius:8px; border:none; min-width:200px;">
+        </div>
         <button class="button" id="surpriseBtn">Click Here</button>
     </div>
 
@@ -627,34 +631,46 @@
         function init() {
             generateStars();
 
-            const confettiCanvas = document.getElementById('confettiCanvas');
-            const fireworksCanvas = document.getElementById('fireworksCanvas');
-            const confetti = new Confetti(confettiCanvas);
-            const fireworks = new Fireworks(fireworksCanvas);
-            const button = document.getElementById('surpriseBtn');
-            const messageContainer = document.getElementById('messageContainer');
-            let hasClicked = false;
+                const confettiCanvas = document.getElementById('confettiCanvas');
+                const fireworksCanvas = document.getElementById('fireworksCanvas');
+                const confetti = new Confetti(confettiCanvas);
+                const fireworks = new Fireworks(fireworksCanvas);
+                const button = document.getElementById('surpriseBtn');
+                const messageContainer = document.getElementById('messageContainer');
+                const nameInput = document.getElementById('nameInput');
+                let hasClicked = false;
 
-            button.addEventListener('click', () => {
-                if (hasClicked) return; // Prevent multiple clicks
-                hasClicked = true;
+                button.addEventListener('click', () => {
+                    if (hasClicked) return; // Prevent multiple clicks
+                    hasClicked = true;
 
-                // Show message
-                messageContainer.classList.add('show');
+                    // Read name and update message
+                    const name = nameInput ? nameInput.value.trim() : '';
+                    const msgTitle = messageContainer.querySelector('h1');
+                    if (name) {
+                        msgTitle.textContent = `🌙 Eid Mubarak, ${name}! 🎉`;
+                    } else {
+                        msgTitle.textContent = '🌙 Eid Mubarak Everyone! 🎉';
+                    }
 
-                // Start animations
-                confetti.start();
-                setTimeout(() => fireworks.start(), 300);
+                    // Show message
+                    messageContainer.classList.add('show');
 
-                // Play sound
-                playCelebrationSound();
+                    // Start animations
+                    confetti.start();
+                    setTimeout(() => fireworks.start(), 300);
 
-                // Reset after some time
-                setTimeout(() => {
-                    hasClicked = false;
-                    messageContainer.classList.remove('show');
-                }, 5000);
-            });
+                    // Play sound
+                    playCelebrationSound();
+
+                    // Reset after some time
+                    setTimeout(() => {
+                        hasClicked = false;
+                        messageContainer.classList.remove('show');
+                        // restore default title
+                        msgTitle.textContent = '🌙 Eid Mubarak Everyone! 🎉';
+                    }, 5000);
+                });
         }
 
         // Start when page loads
